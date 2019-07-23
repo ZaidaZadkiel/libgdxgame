@@ -27,7 +27,8 @@ public class MyGdxGame implements ApplicationListener {
 					+ "attribute vec2 a_texCoord0;\n"
 					+ "uniform mat4 u_worldView;\n"
 					+ "varying vec4 v_color;"
-					+ "varying vec2 v_texCoords;"
+					+ "varying vec2 v_texCoords;\n"
+					+ "varying vec2 bgtexuniformCoord;\n"
 					+ "void main()                  \n"
 					+ "{                            \n"
 					+ "   v_color = vec4(1, 1, 1, 1); \n"
@@ -45,9 +46,14 @@ public class MyGdxGame implements ApplicationListener {
 			+ "uniform float timedelta;\n"
 			+ "void main()                                  \n"
 			+ "{                                            \n"
+			+ " if( " +
+			//"dot( v_texCoords, v_texCoords ) > 0.5 " +
+			"Sampler2d( bgtexUniform, gl_fragCoord ) == vec4( 0.0, 0.0, 0.0, 1.0 ) " +
+			"){ \n"
 			+ "  vec2 displacement = texture2D(u_texture2, v_texCoords/6.0).xy;\n" //
 			+ "  float t=v_texCoords.y +displacement.y*0.1-0.15+  (sin(v_texCoords.x * 60.0+timedelta) * 0.005); \n" //
 			+ "  gl_FragColor = v_color * texture2D(u_texture, vec2(v_texCoords.x,t));\n"
+			+ "} else{ discard; }\n"
 			+ "}";
 
 	String fragmentShader2 = "#ifdef GL_ES\n"
@@ -58,9 +64,9 @@ public class MyGdxGame implements ApplicationListener {
 			+ "uniform sampler2D u_texture;\n"
 			+ "void main()                                  \n"
 			+ "{                                            \n"
-			+ " if( dot( v_texCoords, v_texCoords ) > 0.5 ){ \n"
+
 			+ "  gl_FragColor = v_color * texture2D(u_texture, v_texCoords);\n"
-			+ "} else{ discard; }\n"
+
 			+ "}";
 
 
@@ -150,11 +156,14 @@ public class MyGdxGame implements ApplicationListener {
 		//texture2.bind(1);
 		texture2.bind(1);
 		texture3.bind(2);
+		texture.bind(3);
 
 		shader.begin();
 		shader.setUniformMatrix("u_worldView",  matrix);
 		shader.setUniformi("u_texture", 1);
 		shader.setUniformi("u_texture2", 2);
+		shader.setUniformi("bgtexUniform", 3);
+
 		shader.setUniformf("timedelta", -angle);
 		waterMesh.render(shader, GL20.GL_TRIANGLE_FAN);
 		shader.end();
