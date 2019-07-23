@@ -1,0 +1,4 @@
+#Fri Jul 12 20:25:32 MDT 2019
+base.0=/home/zaida/filez/projects/android/lbgdx/android/build/intermediates/transforms/dexMerger/debug/10
+path.0=classes.dex
+renamed.0=classes.dex
