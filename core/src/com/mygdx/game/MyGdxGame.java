@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Mesh;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -22,7 +23,7 @@ public class MyGdxGame implements ApplicationListener {
 	private Texture texture;
 	private Sprite sprite;
 
-	String vertexShader =
+	FileHandle vertexShader;/* =
 			"attribute vec4 a_position;    \n"
 					+ "attribute vec2 a_texCoord0;\n"
 					+ "uniform mat4 u_worldView;\n"
@@ -35,8 +36,9 @@ public class MyGdxGame implements ApplicationListener {
 					+ "   v_texCoords = a_texCoord0; \n"
 					+ "   gl_Position =  u_worldView * a_position;  \n"
 					+ "}                            \n";
-
-	String fragmentShader = "#ifdef GL_ES\n"
+*/
+	FileHandle fragmentShader;
+	/*= "#ifdef GL_ES\n"
 			+ "precision mediump float;\n"
 			+ "#endif\n"
 			+ "varying vec4 v_color;\n"
@@ -48,15 +50,16 @@ public class MyGdxGame implements ApplicationListener {
 			+ "{                                            \n"
 			+ " if( " +
 			//"dot( v_texCoords, v_texCoords ) > 0.5 " +
-			"Sampler2d( bgtexUniform, gl_fragCoord ) == vec4( 0.0, 0.0, 0.0, 1.0 ) " +
+			"Sampler2d( bgtexUniform, v_texCoords ) == vec4( 0.0, 0.0, 0.0, 1.0 ) " +
 			"){ \n"
 			+ "  vec2 displacement = texture2D(u_texture2, v_texCoords/6.0).xy;\n" //
 			+ "  float t=v_texCoords.y +displacement.y*0.1-0.15+  (sin(v_texCoords.x * 60.0+timedelta) * 0.005); \n" //
 			+ "  gl_FragColor = v_color * texture2D(u_texture, vec2(v_texCoords.x,t));\n"
 			+ "} else{ discard; }\n"
 			+ "}";
-
-	String fragmentShader2 = "#ifdef GL_ES\n"
+*/
+	FileHandle fragmentShader2;
+	/*= "#ifdef GL_ES\n"
 			+ "precision mediump float;\n"
 			+ "#endif\n"
 			+ "varying vec4 v_color;\n"
@@ -68,7 +71,7 @@ public class MyGdxGame implements ApplicationListener {
 			+ "  gl_FragColor = v_color * texture2D(u_texture, v_texCoords);\n"
 
 			+ "}";
-
+*/
 
 	ShaderProgram shader;
 	ShaderProgram waterShader;
@@ -103,8 +106,11 @@ public class MyGdxGame implements ApplicationListener {
 		TextureRegion region = new TextureRegion(texture, 0, 0, texture.getWidth(), texture.getHeight());
 		ShaderProgram.pedantic=false;
 
-		shader = new ShaderProgram(vertexShader, fragmentShader);
+		fragmentShader  = Gdx.files.internal("glsl/fragmentshader1.glsl");
+		vertexShader    = Gdx.files.internal("glsl/vertexshader.glsl");
+		fragmentShader2 = Gdx.files.internal("glsl/fragmentshader2.glsl");
 
+		shader = new ShaderProgram(vertexShader, fragmentShader);
 		waterShader = new ShaderProgram(vertexShader, fragmentShader2);
 		waterShader.setUniformMatrix("u_projTrans", matrix);
 
