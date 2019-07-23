@@ -58,7 +58,9 @@ public class MyGdxGame implements ApplicationListener {
 			+ "uniform sampler2D u_texture;\n"
 			+ "void main()                                  \n"
 			+ "{                                            \n"
+			+ " if( dot( v_texCoords, v_texCoords ) > 0.5 ){ \n"
 			+ "  gl_FragColor = v_color * texture2D(u_texture, v_texCoords);\n"
+			+ "} else{ discard; }\n"
 			+ "}";
 
 
@@ -130,18 +132,22 @@ public class MyGdxGame implements ApplicationListener {
 
 		Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+		Gdx.gl20.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+		Gdx.gl20.glEnable(GL20.GL_BLEND);
+
 
 		//RENDER BACKGROUND
 		batch.setShader(waterShader);
+		texture.bind(1);
 		batch.begin();
+		shader.setUniformi("u_texture", 1);
 		waterShader.setUniformMatrix("u_worldView", camera.combined);
+
 		sprite.draw(batch);
 		batch.end();
 
 
-		//RENDER WATER
-		Gdx.gl20.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-		Gdx.gl20.glEnable(GL20.GL_BLEND);
+		//texture2.bind(1);
 		texture2.bind(1);
 		texture3.bind(2);
 
@@ -153,11 +159,8 @@ public class MyGdxGame implements ApplicationListener {
 		waterMesh.render(shader, GL20.GL_TRIANGLE_FAN);
 		shader.end();
 
-		batch.setShader(null);
-		batch.begin();
-		//waterShader.setUniformMatrix("u_worldView", camera.combined);
-		sprite.draw(batch);
-		batch.end();
+
+
 
 	}
 
