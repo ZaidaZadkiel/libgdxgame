@@ -114,7 +114,7 @@ public class MyGdxGame implements ApplicationListener {
 		waterShader = new ShaderProgram(vertexShader, fragmentShader2);
 		waterShader.setUniformMatrix("u_projTrans", matrix);
 
-		waterMesh = createQuad(-1, -1, 1, -1, 1, -0.3f, -1, -0.3f);
+		waterMesh = createQuad(-1, -1, 1, -1, 1, 1.0f, -1, 1.0f);
 
 		//BACKGROUND SPRITE
 		sprite = new Sprite(region);
