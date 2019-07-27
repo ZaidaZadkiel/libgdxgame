@@ -150,9 +150,9 @@ public class GameScreen extends DefaultScreen {
         // coordinate system specified by the camera.
         batch.setProjectionMatrix(camera.combined);
 
-        batch.begin();
+
         world.present(batch);
-        batch.end();
+
 
     }
 

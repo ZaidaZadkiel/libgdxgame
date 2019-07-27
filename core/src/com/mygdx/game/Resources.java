@@ -3,6 +3,7 @@ package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.mygdx.game.Eventyr.stage1;
@@ -22,6 +23,22 @@ public class Resources {
 
     private Sprite loadTex(String path){
         return new Sprite(new Texture(Gdx.files.internal(path)));
+    }
+
+    public FileHandle getshader(int which){
+        FileHandle n = null;
+        switch(which){
+            case 1:
+                n= Gdx.files.internal("glsl/vertexshader.glsl");
+                break;
+            case 2:
+                n = Gdx.files.internal("glsl/fragmentshader1.glsl");
+                break;
+            case 3:
+                n = Gdx.files.internal("glsl/fragmentshader2.glsl");
+                break;
+        }
+        return n;
     }
 
     public Resources() {

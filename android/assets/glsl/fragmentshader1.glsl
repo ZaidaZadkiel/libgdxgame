@@ -12,13 +12,10 @@ uniform float timedelta;
 
 void main(){                                            
     vec4 tex2color = texture2D(bgtexUniform, v_texCoords);
-    if(tex2color.a == 0.0) {
-    vec2 displacement = texture2D(u_texture2, v_texCoords/6.0).xy;
-        float t=v_texCoords.y +displacement.y*0.1-0.15+  (sin(v_texCoords.x * 60.0+timedelta) * 0.005);
-        gl_FragColor = v_color * texture2D(u_texture, vec2(v_texCoords.x,t));
 
-    }else {
-        gl_FragColor = v_color *  tex2color;
-    }
+    vec2 displacement = texture2D(u_texture2, v_texCoords/6.0).xy;
+    //float t=v_texCoords.y + (displacement.y * 0.1) - 0.15 +  (sin(v_texCoords.x * 60.0+timedelta) * 0.005);
+    float t=v_texCoords.x + (displacement.x * 0.1)  +  (cos(v_texCoords.y * 60.0+timedelta) * 0.005);
+    gl_FragColor = v_color * mix(texture2D(u_texture, vec2(t, v_texCoords.y)), tex2color, tex2color.a);
 
 }

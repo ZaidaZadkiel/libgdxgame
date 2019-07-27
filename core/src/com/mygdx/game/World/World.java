@@ -15,6 +15,7 @@
 package com.mygdx.game.World;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
 
 public class World {
@@ -43,18 +44,5 @@ public class World {
         return stage;
     }
 
-    public void present(SpriteBatch batch) {
-        Element[] elements = stage.getElements();
-        if(elements == null) {
-            System.out.println("elements is empty");
-            return;
-        }
-        for(Element e : elements){
-             if(e == null) continue;
-            Rectangle r = e.anim.getRectangle();
-            //e.prite.draw(batch);
-            batch.draw(e.anim.getFrame(), e.x, e.y);
-            //batch.draw(e.sprite, e.x, e.y, (int)r.x, (int)r.y, (int)r.width, (int)r.height);
-        }
-    }
+    public void present(SpriteBatch batch) { stage.draw(batch); }
 }

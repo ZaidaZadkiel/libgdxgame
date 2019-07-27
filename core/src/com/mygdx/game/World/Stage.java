@@ -10,6 +10,7 @@
 
 package com.mygdx.game.World;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.Resources;
 
 public abstract class Stage {
@@ -21,7 +22,11 @@ public abstract class Stage {
 
     abstract public void update(float delta);
 
+    abstract public void draw(SpriteBatch batch);
+
     abstract public Element getPlayer();
 
     abstract public Element[] getElements();
+
+
 }

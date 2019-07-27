@@ -9,8 +9,10 @@
 
 package com.mygdx.game.World;
 
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Rectangle;
 
 public class Element extends Rectangle {
@@ -41,6 +43,20 @@ public class Element extends Rectangle {
     public void setFrame(int frame, int index){
         anim.frame      = frame;
         anim.frameindex = index;
+    }
+
+    public ShaderProgram vshader;
+    private ShaderProgram fshader;
+    public boolean shaderEnabled = false;
+    public void setShader(FileHandle vs, FileHandle fs){
+        ShaderProgram.pedantic = false;
+        vshader = new ShaderProgram(vs, fs);
+        if(vshader.isCompiled() == false ) System.out.print(vshader.getLog() );
+        shaderEnabled = true;
+    }
+
+    public ShaderProgram getShader(){
+        return vshader;
     }
 
 
