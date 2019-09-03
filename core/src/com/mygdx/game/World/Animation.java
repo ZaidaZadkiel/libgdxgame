@@ -22,12 +22,18 @@ public class Animation {
     public int        framecount;
     public float      framewidth;
     public float      frameheight;
-    public float      frametime=0.02f;
+    public float      frametime=0.051f;
+
+
     private Rectangle framepos = new Rectangle();
     private float     time;
     private int       animcount;
     private com.badlogic.gdx.graphics.g2d.Animation<TextureRegion> []
                       animations;
+
+    public void setTime(float abs) {
+        time = abs;
+    }
 
     public void addTime(float delta){
         time += delta;
@@ -36,13 +42,38 @@ public class Animation {
             time -= frametime;
         }
     }
+    public int anim_action = 0; // 0: idle, 1: starting walk, 2: walking loop, 3: stopping walk
 
     public TextureRegion getFrame(){
-        return animations[frameindex].getKeyFrame(time, true);
-    }
+        switch(anim_action) {
+            //return animations[frameindex].
+            case 0:
+                time = 0;
+                return animations[frameindex].getKeyFrame(0, false);
+            case 1:
+                TextureRegion n = animations[frameindex].getKeyFrame(time, true);
+                if(time >= (6 * frametime) ) {
+                    time -= (5 * frametime);
+                    anim_action = 2;
+                }
+                return n;
+            case 2:
+                return animations[frameindex].getKeyFrame(
+                        (5 * frametime) + (time % (10 * frametime)),
+                        true
+                ); //return
+            case 3:
+                //TODO: sometimes this doesnt show the animation when stopping from walking (2)
+                float nt = (15*frametime)+(time % (5*frametime));
+                if(animations[frameindex].isAnimationFinished(nt)) anim_action = 0;
+                return animations[frameindex].getKeyFrame(nt, false);
+            default:
+                return animations[frameindex].getKeyFrame(0, true);
+        } // switch(anim_action)
+    } // public getFrame()
 
     public void splitFrames(Sprite s){
-        if(framecount == 1) {
+        if(framecount == 0) {
             animations = new com.badlogic.gdx.graphics.g2d.Animation[1];
             animations[0] = new com.badlogic.gdx.graphics.g2d.Animation<TextureRegion>(
                     0,
@@ -51,7 +82,11 @@ public class Animation {
             return;
         }
 
-        TextureRegion[][] frames = TextureRegion.split(s.getTexture(), 64,64);
+        TextureRegion[][] frames = TextureRegion.split(
+                s.getTexture(),
+                s.getTexture().getWidth() / framecount,
+                s.getTexture().getHeight()/4
+        );
         //should be lines of frames
         animcount = frames.length;
         animations = new com.badlogic.gdx.graphics.g2d.Animation[animcount];
@@ -61,6 +96,7 @@ public class Animation {
                     frametime,
                     framegroup
             );// animations[i] = new Animation
+            //System.out.println("Animation time: " + frametime + ", counter: " + counter);
         } // for each framegroup in frames
 
     }

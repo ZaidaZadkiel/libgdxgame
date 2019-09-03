@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/home/zaida/filez/projects/android/lbgdx/android/build/intermediates/res/merged/debug/values_values.arsc.flat",
+            "outputFile": "/home/zaida/filez/projects/android/libgdxgame/android/build/intermediates/res/merged/debug/values_values.arsc.flat",
             "map": [
                 {
-                    "source": "/home/zaida/filez/projects/android/lbgdx/android/res/values/color.xml",
+                    "source": "/home/zaida/filez/projects/android/libgdxgame/android/res/values/color.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -14,7 +14,24 @@
                     }
                 },
                 {
-                    "source": "/home/zaida/filez/projects/android/lbgdx/android/res/values/styles.xml",
+                    "source": "/home/zaida/filez/projects/android/libgdxgame/android/res/values/strings.xml",
+                    "from": {
+                        "startLines": "3",
+                        "startColumns": "4",
+                        "startOffsets": "56",
+                        "endColumns": "48",
+                        "endOffsets": "100"
+                    },
+                    "to": {
+                        "startLines": "3",
+                        "startColumns": "4",
+                        "startOffsets": "111",
+                        "endColumns": "48",
+                        "endOffsets": "155"
+                    }
+                },
+                {
+                    "source": "/home/zaida/filez/projects/android/libgdxgame/android/res/values/styles.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -30,23 +47,6 @@
                         "endLines": "11",
                         "endColumns": "12",
                         "endOffsets": "618"
-                    }
-                },
-                {
-                    "source": "/home/zaida/filez/projects/android/lbgdx/android/res/values/strings.xml",
-                    "from": {
-                        "startLines": "3",
-                        "startColumns": "4",
-                        "startOffsets": "56",
-                        "endColumns": "48",
-                        "endOffsets": "100"
-                    },
-                    "to": {
-                        "startLines": "3",
-                        "startColumns": "4",
-                        "startOffsets": "111",
-                        "endColumns": "48",
-                        "endOffsets": "155"
                     }
                 }
             ]

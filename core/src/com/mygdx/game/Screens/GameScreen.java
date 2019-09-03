@@ -23,10 +23,16 @@ import java.util.Iterator;
 
 public class GameScreen extends DefaultScreen {
 
+    private static final int DIR_STOP  = 0;
     private static final int DIR_LEFT  = 1;
     private static final int DIR_UP    = 2;
     private static final int DIR_RIGHT = 3;
     private static final int DIR_DOWN  = 4;
+
+    private static final int VIRTUAL_WIDTH = 800;
+    private static final int VIRTUAL_HEIGHT = 400;
+    private static final float ASPECT_RATIO =
+        (float)VIRTUAL_WIDTH/(float)VIRTUAL_HEIGHT;
 
     private Resources   r;
     private SpriteBatch batch;
@@ -34,6 +40,7 @@ public class GameScreen extends DefaultScreen {
     private int direction = 0;
     private World world;
     private Element player;
+    private int screenspeed = 120;
 
     public GameScreen(MyGdxGame game) {
         super(game);
@@ -46,9 +53,17 @@ public class GameScreen extends DefaultScreen {
         player = world.getStage().getPlayer();
         if(player == null) System.out.println("player is left null");
 
+        //android 1.7
+        // pc  0.6
+        float dpi = 160 * Gdx.graphics.getDensity();
+        System.out.println ("DPI: " + Gdx.graphics.getDensity());
         // setup the camera
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, 800, 480);
+        camera.setToOrtho(
+        false,
+              VIRTUAL_WIDTH,
+                VIRTUAL_HEIGHT
+            );
         batch = new SpriteBatch();
     }
 
@@ -60,7 +75,7 @@ public class GameScreen extends DefaultScreen {
     @Override
     public void input() {
         // process user input
-        direction = 0;
+        direction = DIR_STOP;
 
         // TODO: change direction for flags to do diagonal movement
         if(Gdx.input.isKeyPressed(Input.Keys.LEFT))  direction = DIR_LEFT;
@@ -96,34 +111,54 @@ public class GameScreen extends DefaultScreen {
 
         }
 
+        int act = player.anim.anim_action;
         switch (direction) {
+            case DIR_STOP: {
+                if (act == 2 || act == 1) {
+                    player.anim.anim_action = 3;
+                    player.anim.setTime(0);
+                }
+                break;
+            }
             case DIR_LEFT: {
-                player.x -= 100 * Gdx.graphics.getDeltaTime();
-                player.anim.frameindex = 1;
-                //spritesheet.setRegion(currframe * 64, 64 , 64, 64);
+                player.x -= screenspeed * Gdx.graphics.getDeltaTime();
+                player.anim.frameindex = 0;
+                if(act == 0) {
+                    player.anim.anim_action = 1;
+                    player.anim.setTime(0);
+                }
                 break;
             }
 
             case DIR_RIGHT: {
-                player.x += 100 * Gdx.graphics.getDeltaTime();
-                player.anim.frameindex = 3;
-                //spritesheet.setRegion(currframe * 64, 64*3, 64, 64);
+                player.x += screenspeed * Gdx.graphics.getDeltaTime();
+                player.anim.frameindex = 2;
+                if(act == 0) {
+                    player.anim.anim_action = 1;
+                    player.anim.setTime(0);
+                }
                 break;
             }
-
             case DIR_UP: {
-                player.y += 100 * Gdx.graphics.getDeltaTime();
-                player.anim.frameindex = 2;
-                //spritesheet.setRegion(currframe * 64, 64 * 2, 64, 64);
+                player.y += screenspeed * Gdx.graphics.getDeltaTime();
+                player.anim.frameindex = 1;
+                if(act == 0) {
+                    player.anim.anim_action = 1;
+                    player.anim.setTime(0);
+                }
                 break;
             }
             case DIR_DOWN: {
-                player.y -= 100 * Gdx.graphics.getDeltaTime();
-                player.anim.frameindex = 0;
-                //spritesheet.setRegion(currframe * 64, 0, 64, 64);
+                player.y -= screenspeed * Gdx.graphics.getDeltaTime();
+                player.anim.frameindex = 3;
+                if(act == 0) {
+                    player.anim.anim_action = 1;
+                    player.anim.setTime(0);
+                }
                 break;
             }
         } //switch (direction)
+
 
         camera.position.x = player.x;
         camera.position.y = player.y;
@@ -133,13 +168,6 @@ public class GameScreen extends DefaultScreen {
     public void render(float delta) {
         super.render(delta);
         this.input();
-
-        // clear the screen with a dark blue color. The
-        // arguments to glClearColor are the red, green
-        // blue and alpha component in the range [0,1]
-        // of the color to be used to clear the screen.
-        Gdx.gl.glClearColor(0, 0, 0.2f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         //camera.translate(0,0.1f,0);
         // tell the camera to update its matrices.

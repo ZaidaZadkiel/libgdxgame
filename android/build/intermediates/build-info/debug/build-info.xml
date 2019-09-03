@@ -6,106 +6,106 @@
     density="xhdpi"
     format="10"
     plugin-version="3.4.0"
-    timestamp="1563125016773"
-    token="-5067582110410745421"
+    timestamp="1564564659952"
+    token="5397519490723983387"
     verifier="FULL_BUILD_REQUESTED" >
 
     <task
         name="javac"
-        duration="624" />
+        duration="723" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="374" />
+        duration="563" />
     <task
         name="verifier"
-        duration="193" />
+        duration="371" />
 
     <artifact
-        location="/home/zaida/filez/projects/android/lbgdx/android/build/intermediates/split-apk/debug/slices/slice_3.apk"
+        location="/home/zaida/filez/projects/android/libgdxgame/android/build/intermediates/split-apk/debug/slices/slice_0.apk"
         type="SPLIT" />
     <artifact
-        location="/home/zaida/filez/projects/android/lbgdx/android/build/intermediates/split-apk/debug/slices/slice_6.apk"
+        location="/home/zaida/filez/projects/android/libgdxgame/android/build/intermediates/split-apk/debug/slices/slice_2.apk"
         type="SPLIT" />
     <artifact
-        location="/home/zaida/filez/projects/android/lbgdx/android/build/intermediates/split-apk/debug/slices/slice_9.apk"
+        location="/home/zaida/filez/projects/android/libgdxgame/android/build/intermediates/split-apk/debug/slices/slice_4.apk"
         type="SPLIT" />
     <artifact
-        location="/home/zaida/filez/projects/android/lbgdx/android/build/intermediates/split-apk/debug/slices/slice_7.apk"
+        location="/home/zaida/filez/projects/android/libgdxgame/android/build/intermediates/split-apk/debug/slices/slice_7.apk"
         type="SPLIT" />
     <artifact
-        location="/home/zaida/filez/projects/android/lbgdx/android/build/intermediates/split-apk/debug/slices/slice_1.apk"
-        type="SPLIT" />
-    <artifact
-        location="/home/zaida/filez/projects/android/lbgdx/android/build/intermediates/split-apk/debug/slices/slice_2.apk"
-        type="SPLIT" />
-    <artifact
-        location="/home/zaida/filez/projects/android/lbgdx/android/build/intermediates/split-apk/debug/dep/dependencies.apk"
-        type="SPLIT" />
-    <artifact
-        location="/home/zaida/filez/projects/android/lbgdx/android/build/intermediates/split-apk/debug/slices/slice_0.apk"
-        type="SPLIT" />
-    <artifact
-        location="/home/zaida/filez/projects/android/lbgdx/android/build/intermediates/resources/instant-run/debug/resources-debug.apk"
-        type="SPLIT" />
-    <artifact
-        location="/home/zaida/filez/projects/android/lbgdx/android/build/intermediates/split-apk/debug/slices/slice_4.apk"
-        type="SPLIT" />
-    <artifact
-        location="/home/zaida/filez/projects/android/lbgdx/android/build/intermediates/split-apk/debug/slices/slice_8.apk"
-        type="SPLIT" />
-    <artifact
-        location="/home/zaida/filez/projects/android/lbgdx/android/build/intermediates/split-apk/debug/slices/slice_5.apk"
-        type="SPLIT" />
-    <artifact
-        location="/home/zaida/filez/projects/android/lbgdx/android/build/intermediates/instant-run-apk/debug/android-debug.apk"
+        location="/home/zaida/filez/projects/android/libgdxgame/android/build/intermediates/instant-run-apk/debug/android-debug.apk"
         type="SPLIT_MAIN" />
+    <artifact
+        location="/home/zaida/filez/projects/android/libgdxgame/android/build/intermediates/split-apk/debug/slices/slice_6.apk"
+        type="SPLIT" />
+    <artifact
+        location="/home/zaida/filez/projects/android/libgdxgame/android/build/intermediates/split-apk/debug/slices/slice_5.apk"
+        type="SPLIT" />
+    <artifact
+        location="/home/zaida/filez/projects/android/libgdxgame/android/build/intermediates/resources/instant-run/debug/resources-debug.apk"
+        type="SPLIT" />
+    <artifact
+        location="/home/zaida/filez/projects/android/libgdxgame/android/build/intermediates/split-apk/debug/slices/slice_9.apk"
+        type="SPLIT" />
+    <artifact
+        location="/home/zaida/filez/projects/android/libgdxgame/android/build/intermediates/split-apk/debug/slices/slice_8.apk"
+        type="SPLIT" />
+    <artifact
+        location="/home/zaida/filez/projects/android/libgdxgame/android/build/intermediates/split-apk/debug/slices/slice_3.apk"
+        type="SPLIT" />
+    <artifact
+        location="/home/zaida/filez/projects/android/libgdxgame/android/build/intermediates/split-apk/debug/slices/slice_1.apk"
+        type="SPLIT" />
+    <artifact
+        location="/home/zaida/filez/projects/android/libgdxgame/android/build/intermediates/split-apk/debug/dep/dependencies.apk"
+        type="SPLIT" />
 
     <build
         build-mode="FULL"
-        timestamp="1563125016773"
+        timestamp="1564564659952"
         verifier="FULL_BUILD_REQUESTED" >
         <artifact
-            location="/home/zaida/filez/projects/android/lbgdx/android/build/intermediates/split-apk/debug/slices/slice_3.apk"
+            location="/home/zaida/filez/projects/android/libgdxgame/android/build/intermediates/split-apk/debug/slices/slice_0.apk"
             type="SPLIT" />
         <artifact
-            location="/home/zaida/filez/projects/android/lbgdx/android/build/intermediates/split-apk/debug/slices/slice_6.apk"
+            location="/home/zaida/filez/projects/android/libgdxgame/android/build/intermediates/split-apk/debug/slices/slice_2.apk"
             type="SPLIT" />
         <artifact
-            location="/home/zaida/filez/projects/android/lbgdx/android/build/intermediates/split-apk/debug/slices/slice_9.apk"
+            location="/home/zaida/filez/projects/android/libgdxgame/android/build/intermediates/split-apk/debug/slices/slice_4.apk"
             type="SPLIT" />
         <artifact
-            location="/home/zaida/filez/projects/android/lbgdx/android/build/intermediates/split-apk/debug/slices/slice_7.apk"
+            location="/home/zaida/filez/projects/android/libgdxgame/android/build/intermediates/split-apk/debug/slices/slice_7.apk"
             type="SPLIT" />
         <artifact
-            location="/home/zaida/filez/projects/android/lbgdx/android/build/intermediates/split-apk/debug/slices/slice_1.apk"
-            type="SPLIT" />
-        <artifact
-            location="/home/zaida/filez/projects/android/lbgdx/android/build/intermediates/split-apk/debug/slices/slice_2.apk"
-            type="SPLIT" />
-        <artifact
-            location="/home/zaida/filez/projects/android/lbgdx/android/build/intermediates/split-apk/debug/dep/dependencies.apk"
-            type="SPLIT" />
-        <artifact
-            location="/home/zaida/filez/projects/android/lbgdx/android/build/intermediates/split-apk/debug/slices/slice_0.apk"
-            type="SPLIT" />
-        <artifact
-            location="/home/zaida/filez/projects/android/lbgdx/android/build/intermediates/resources/instant-run/debug/resources-debug.apk"
-            type="SPLIT" />
-        <artifact
-            location="/home/zaida/filez/projects/android/lbgdx/android/build/intermediates/split-apk/debug/slices/slice_4.apk"
-            type="SPLIT" />
-        <artifact
-            location="/home/zaida/filez/projects/android/lbgdx/android/build/intermediates/split-apk/debug/slices/slice_8.apk"
-            type="SPLIT" />
-        <artifact
-            location="/home/zaida/filez/projects/android/lbgdx/android/build/intermediates/split-apk/debug/slices/slice_5.apk"
-            type="SPLIT" />
-        <artifact
-            location="/home/zaida/filez/projects/android/lbgdx/android/build/intermediates/instant-run-apk/debug/android-debug.apk"
+            location="/home/zaida/filez/projects/android/libgdxgame/android/build/intermediates/instant-run-apk/debug/android-debug.apk"
             type="SPLIT_MAIN" />
+        <artifact
+            location="/home/zaida/filez/projects/android/libgdxgame/android/build/intermediates/split-apk/debug/slices/slice_6.apk"
+            type="SPLIT" />
+        <artifact
+            location="/home/zaida/filez/projects/android/libgdxgame/android/build/intermediates/split-apk/debug/slices/slice_5.apk"
+            type="SPLIT" />
+        <artifact
+            location="/home/zaida/filez/projects/android/libgdxgame/android/build/intermediates/resources/instant-run/debug/resources-debug.apk"
+            type="SPLIT" />
+        <artifact
+            location="/home/zaida/filez/projects/android/libgdxgame/android/build/intermediates/split-apk/debug/slices/slice_9.apk"
+            type="SPLIT" />
+        <artifact
+            location="/home/zaida/filez/projects/android/libgdxgame/android/build/intermediates/split-apk/debug/slices/slice_8.apk"
+            type="SPLIT" />
+        <artifact
+            location="/home/zaida/filez/projects/android/libgdxgame/android/build/intermediates/split-apk/debug/slices/slice_3.apk"
+            type="SPLIT" />
+        <artifact
+            location="/home/zaida/filez/projects/android/libgdxgame/android/build/intermediates/split-apk/debug/slices/slice_1.apk"
+            type="SPLIT" />
+        <artifact
+            location="/home/zaida/filez/projects/android/libgdxgame/android/build/intermediates/split-apk/debug/dep/dependencies.apk"
+            type="SPLIT" />
     </build>
 
 </instant-run>

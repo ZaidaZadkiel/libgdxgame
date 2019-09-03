@@ -1,1 +1,1 @@
-/home/zaida/filez/projects/android/lbgdx/desktop/build/classes/java/main/com/mygdx/game/desktop/DesktopLauncher.class
+/home/zaida/filez/projects/android/libgdxgame/desktop/build/classes/java/main/com/mygdx/game/desktop/DesktopLauncher.class

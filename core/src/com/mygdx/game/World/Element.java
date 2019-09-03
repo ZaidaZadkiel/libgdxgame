@@ -34,12 +34,13 @@ public class Element extends Rectangle {
         anim.framecount  = framecount;
         anim.framewidth  = w;
         anim.frameheight = h;
-        anim.frametime   = (framecount == 1 ? 0.0f : 0.02f); //if there are no frames, leave frametime = 0
+        anim.frametime   = (framecount <= 1 ? 0.0f : anim.frametime); //if there are no frames, leave frametime = 0
 
         this.sprite     = sprite;
         anim.splitFrames(sprite);
         setFrame(0, 0);
     }
+
     public void setFrame(int frame, int index){
         anim.frame      = frame;
         anim.frameindex = index;
