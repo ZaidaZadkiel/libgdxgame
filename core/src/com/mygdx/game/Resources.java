@@ -6,6 +6,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.XmlReader;
 import com.mygdx.game.Eventyr.stage1;
@@ -13,6 +14,7 @@ import com.mygdx.game.World.Element;
 import com.mygdx.game.World.Stage;
 
 import java.util.Iterator;
+import java.util.StringTokenizer;
 
 public class Resources {
     private Sprite  spritesImage;
@@ -60,31 +62,73 @@ public class Resources {
         rainMusic.dispose();
     }
 
-    public Element[] loadxml(String path){
-        FileHandle xmlfile = Gdx.files.internal(path);
-        XmlReader xml = new XmlReader();
-        XmlReader.Element xmle = xml.parse(xmlfile);
+    // opens xml for reading
+    private FileHandle xmlfile;
+    private XmlReader xml;
+    private XmlReader.Element xmle;
+    public XmlReader.Element openXML(String path){
+        System.out.println("Reading xml from " + path);
+        xmlfile = Gdx.files.internal(path);
+        xml     = new XmlReader();
+        xmle    = xml.parse(xmlfile);
+        return xmle;
+    }
 
+    public Element[] readProps() {
         Array<XmlReader.Element> layer = xmle.getChildByName("stack").getChildrenByName("layer");
         Iterator i = layer.iterator();
         Element[] xmlelements = new Element[layer.size];
         int c = 0;
 
-        while(i.hasNext()){
-            XmlReader.Element level_element = (XmlReader.Element)i.next();
+        while (i.hasNext()) {
+            XmlReader.Element level_element = (XmlReader.Element) i.next();
             // TODO_ Figure if name is needed for something
-            String name = level_element.getAttribute("name");
-            String src = level_element.getAttribute("src");
+            String name       = level_element.getAttribute("name");
+            String src        = level_element.getAttribute("src");
+            String visibility = level_element.getAttribute("visibility");
+
             int x = level_element.getInt("x");
             int y = level_element.getInt("y");
 
+            System.out.println("prop name: " + name);
             Sprite s = loadTex(src);
             s.setPosition(x, y);
-            xmlelements[c] = new Element(x, y, s.getWidth(), s.getHeight(),0,s);
+
+            //TODO: make something to visibilty allowing different ways to display
+            if(false && visibility.compareTo("fixed") == 0){
+                xmlelements[c] = xmlelements[0];
+                xmlelements[0] = new Element(x, y, s.getWidth(), s.getHeight(), 0, s);
+            } else {
+                xmlelements[c] = new Element(x, y, s.getWidth(), s.getHeight(), 0, s);
+            }
+            c++;
+        }
+        return xmlelements;
+    } // Element[] readProps()
+
+    public Polygon[] readBoundaries(){
+        Array<XmlReader.Element> layer = xmle.getChildByName("boundary").getChildrenByName("area");
+        Iterator i = layer.iterator();
+        Polygon[] poly = new Polygon[layer.size];;
+        int c = 0;
+
+        while(i.hasNext()){
+            XmlReader.Element level_element = (XmlReader.Element)i.next();
+            String area= level_element.getAttribute("coords");
+            //System.out.println(area);
+            StringTokenizer st = new StringTokenizer(area, ",");
+            int p = 0;
+            float [] points = new float[st.countTokens()];
+            while (st.hasMoreTokens()) {
+                points[p] = Float.parseFloat(st.nextToken());
+                //System.out.println("p[" + p + "]: " + points[p]);
+                p++;
+            }
+            poly[c] = new Polygon(points);
             c++;
         }
 
-        return xmlelements;
+        return poly;
     }
 
     public Sprite loadimg(int n){
