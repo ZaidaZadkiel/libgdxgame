@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<image h="1326" w="1024">
+<stack>
+<layer name="tree" opacity="1.0" src="data/scene1/000.png" visibility="visible" x="736" y="308" />
+<layer name="tree1" opacity="1.0" src="data/scene1/001.png" visibility="visible" x="164" y="613" />
+<layer name="tree2" opacity="1.0" src="data/scene1/002.png" visibility="visible" x="0" y="568" />
+<layer name="house" opacity="1.0" src="data/scene1/003.png" visibility="visible" x="505" y="661" />
+<layer name="pond1" opacity="1.0" src="data/scene1/004.png" visibility="visible" x="355" y="268" />
+<layer name="pond2" opacity="1.0" src="data/scene1/005.png" visibility="visible" x="17" y="282" />
+<layer name="scene1-obj.png" opacity="1.0" src="data/scene1/006.png" visibility="visible" x="0" y="551" />
+<layer name="scene1-bg.png" opacity="1.0" src="data/scene1/007.png" visibility="bottom" x="0" y="0" />
+</stack>
+<boundary>
+    <area coords="240,1322,244,1124,257,893,237,744,103,686,3,684,2,1325" shape="poly"/>
+    <area coords="203,616,226,601,255,601,274,620,236,630" shape="poly"/>
+    <area coords="55,573,74,569,106,572,122,583,85,589" shape="poly"/>
+    <area coords="243,539,261,528,363,545,382,565,488,523,555,454,619,393,606,286,538,198,403,158,266,155,161,197,73,283,64,397,87,483,168,541" shape="poly"/>
+    <area coords="789,317,809,310,841,311,855,322,824,328" shape="poly"/>
+    <area coords="664,670,560,666,557,1111,850,1098,859,679,732,673,731,701,829,701,826,1068,585,1076,577,704,662,701" shape="poly"/>
+    <area coords="642,701,750,702,749,738,644,740" shape="poly"/>
+    <area coords="229,1299,1023,1296,1023,1323,232,1322" shape="poly"/>
+    <area coords="1024,1323,1023,1,1008,2,1012,1322" shape="poly"/>
+    <area coords="13,428,0,718,0,0,16,0,10,109,70,287,69,406" shape="poly"/>
+    <area coords="2,6,1019,10,1023,1,0,2" shape="poly"/>
+</boundary>
+
+</image>

@@ -125,7 +125,6 @@ public class GameScreen extends DefaultScreen {
         if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) newX = player.speed;
         if(Gdx.input.isKeyPressed(Input.Keys.UP))    newY = player.speed;
         if(Gdx.input.isKeyPressed(Input.Keys.DOWN))  newY = -player.speed;
-        world.moveElement(player, newX, newY);
 
         if(Gdx.input.isTouched()) {
             Vector3 touchPos = new Vector3();
@@ -140,20 +139,22 @@ public class GameScreen extends DefaultScreen {
             if(Math.abs(x) > 32 || Math.abs(y) > 32) {
                 if (Math.abs(slope) < 1 ) {
                     if (Math.signum(x) > 0) { // to the left
-                        player.moveLeft(); //direction = DIR_LEFT;
+                        newX = -player.speed; //player.moveLeft(); //direction = DIR_LEFT;
                     } else if (Math.signum(x) < 0) {
-                        player.moveRight(); //direction = DIR_RIGHT; //right)
+                        newX = player.speed; //player.moveRight(); //direction = DIR_RIGHT; //right)
                     } // if math.signum
                 } else { // abs(slope) > 1
                     if (Math.signum(y) < 0) { // up
-                        player.moveUp(); //direction = DIR_UP;
+                        newY = player.speed; //player.moveUp(); //direction = DIR_UP;
                     } else if (Math.signum(y) > 0) {
-                        player.moveDown(); //direction = DIR_DOWN; // down)
+                        newY = -player.speed;//player.moveDown(); //direction = DIR_DOWN; // down)
                     } // if math.signum
                 }
             } // if(mouse distance to sprite pos > 32
 
         }
+
+        world.moveElement(player, newX, newY);
 
         camera.position.x = player.x;
         camera.position.y = player.y;
