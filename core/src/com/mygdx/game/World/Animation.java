@@ -11,69 +11,88 @@
 
 package com.mygdx.game.World;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 
 public class Animation {
-    public int        frameindex;
+    public int        framesetIndex;
+    public int        framesetCount;
     public int        frame;
-    public int        framecount;
-    public float      framewidth;
-    public float      frameheight;
-    public float      frametime=0.051f;
+    public int        frameCount;
+    public float      frameWidth;
+    public float      frameHeight;
+    public float      frameTime =0.25f;
 
+    public int        anim_action = 0; // 0: idle, 1: starting walk, 2: walking loop, 3: stopping walk
 
     private Rectangle framepos = new Rectangle();
     private float     time;
     private int       animcount;
     private com.badlogic.gdx.graphics.g2d.Animation<TextureRegion> []
                       animations;
+    TextureRegion[][] frames;
 
-    public void setTime(float abs) {
-        time = abs;
-    }
+
+    public void  setTime(float abs) { time = abs; }
+    public float getTime()          { return time; }
 
     public void addTime(float delta){
-        time += delta;
-        if(false && time >= frametime){
-            frame = frame + 1 % framecount;
-            time -= frametime;
+        if(anim_action==0) {
+            frame = 0;
+            return;
+        }
+        time = (time + delta);
+
+        if(frameCount != 0 && time >= frameTime){
+            frame = (frame + 1) ;//% framecount;
+            time -= frameTime;
+//            System.out.println("frametime is: " + frametime);
         }
     }
-    public int anim_action = 0; // 0: idle, 1: starting walk, 2: walking loop, 3: stopping walk
 
     public TextureRegion getFrame(){
+        if(animations == null) return null;
+//        System.out.println("anim_action: " + anim_action);
         switch(anim_action) {
             //return animations[frameindex].
             case 0:
                 time = 0;
-                return animations[frameindex].getKeyFrame(0, false);
+                frame=0;
+                return animations[framesetIndex].getKeyFrame(0, false);
             case 1:
-                TextureRegion n = animations[frameindex].getKeyFrame(time, true);
-                if(time >= (6 * frametime) ) {
-                    time -= (5 * frametime);
-                    anim_action = 2;
+                TextureRegion n = frames[framesetIndex][frame];//.getKeyFrame(time, true);
+//                if(time >= (3 * frametime) ) {
+//                    time -= (1 * frametime);
+//                    anim_action = 2;
+//                }
+                if(frame >= 2){
+                    frame = 0;
+                    anim_action=2;
                 }
                 return n;
             case 2:
-                return animations[frameindex].getKeyFrame(
-                        (5 * frametime) + (time % (10 * frametime)),
-                        true
-                ); //return
+                return frames[framesetIndex][2+(frame%(frameCount -4) )];//.getKeyFrame(time, true);
+//                return animations[frameindex].getKeyFrame(
+////                        (2 * frametime) + (time % (this.framecount-2 * frametime)),
+////                        (2 * frametime)+(time % ((this.framecount-2) * frametime)),
+//                        time % (framecount*frametime),
+//                        true
+//                ); //return
             case 3:
                 //TODO: sometimes this doesnt show the animation when stopping from walking (2)
-                float nt = (15*frametime)+(time % (5*frametime));
-                if(animations[frameindex].isAnimationFinished(nt)) anim_action = 0;
-                return animations[frameindex].getKeyFrame(nt, false);
+                if(frame== 1) anim_action=0;
+                return frames[framesetIndex][(7+frame)% frameCount];//.getKeyFrame(time, true);
+//                float nt = (15*frametime)+(time % (5*frametime));
+//                if(animations[frameindex].isAnimationFinished(nt)) anim_action = 0;
+//                return animations[frameindex].getKeyFrame(nt, false);
             default:
-                return animations[frameindex].getKeyFrame(0, true);
+                return animations[framesetIndex].getKeyFrame(0, true);
         } // switch(anim_action)
     } // public getFrame()
 
     public void splitFrames(Sprite s){
-        if(framecount == 0) {
+        if(frameCount == 0) {
             animations = new com.badlogic.gdx.graphics.g2d.Animation[1];
             animations[0] = new com.badlogic.gdx.graphics.g2d.Animation<TextureRegion>(
                     0,
@@ -82,18 +101,18 @@ public class Animation {
             return;
         }
 
-        TextureRegion[][] frames = TextureRegion.split(
+        frames = TextureRegion.split(
                 s.getTexture(),
-                s.getTexture().getWidth() / framecount,
-                s.getTexture().getHeight()/4
+                s.getTexture().getWidth() / frameCount,
+                s.getTexture().getHeight()/ framesetCount
         );
         //should be lines of frames
-        animcount = frames.length;
-        animations = new com.badlogic.gdx.graphics.g2d.Animation[animcount];
+        animcount   = frames.length;
+        animations  = new com.badlogic.gdx.graphics.g2d.Animation[animcount];
         int counter = 0;
         for(TextureRegion[] framegroup : frames){
             animations[counter++] = new com.badlogic.gdx.graphics.g2d.Animation<TextureRegion>(
-                    frametime,
+                    frameTime,
                     framegroup
             );// animations[i] = new Animation
             //System.out.println("Animation time: " + frametime + ", counter: " + counter);
@@ -102,10 +121,10 @@ public class Animation {
     }
 
     public Rectangle getRectangle(){
-        framepos.x      = (frame * framewidth) % (framecount* framewidth);
-        framepos.y      = frameindex * frameheight;
-        framepos.width  = framewidth;
-        framepos.height = frameheight;
+        framepos.x      = (frame * frameWidth) % (frameCount * frameWidth);
+        framepos.y      = framesetIndex * frameHeight;
+        framepos.width  = frameWidth;
+        framepos.height = frameHeight;
         return framepos;
     }
 }

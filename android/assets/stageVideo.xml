@@ -1,0 +1,47 @@
+<image h="100" w="1000">
+	<stack>
+		<layer name="tree" opacity="1.0" src="data/scene1/000.png" visibility="false" x="786.0" y="214.0"/>
+		<layer name="tree1" opacity="1.0" src="data/scene1/001.png" visibility="false" x="164.0" y="613.0"/>
+		<layer name="tree2" opacity="1.0" src="data/scene1/002.png" visibility="false" x="0.0" y="568.0"/>
+		<layer name="house" opacity="1.0" src="data/scene1/003.png" visibility="false" x="468.0" y="911.0"/>
+		<layer name="pond1" opacity="1.0" src="data/scene1/004.png" visibility="false" x="1278.0" y="-294.0"/>
+		<layer name="pond2" opacity="1.0" src="data/scene1/005.png" visibility="false" x="-356.0" y="35.0"/>
+		<layer name="scene1-obj.png" opacity="1.0" src="data/scene1/006.png" visibility="false" x="-511.0" y="528.0"/>
+		<layer name="scenebg" opacity="1.0" src="data/scene1/007.png" visibility="false" x="1732.0" y="91.0"/>
+	</stack>
+	<cast>
+		<actor name="anim" x="296.0" y="-48.0" script="nothing"/>
+		<actor name="anim" x="746.0" y="-128.0" script="nothing"/>
+		<actor name="anim" x="780.0" y="-97.0" script="nothing"/>
+	</cast>
+	<boundary>
+		<area shape="bound" coords="-632,2159,-680,1399,-472,1387,-448,1678,-287,1702,-264,1417,-32,1428,29,2192,-216,2224,-305,1832,-448,1844,-454,2224,"/>
+		<area shape="bound" coords="140,2183,81,1458,520,1470,532,1708,167,1589,201,1824,363,1762,404,1987,217,1933,223,2094,526,1999,497,2224,"/>
+		<area shape="bound" coords="621,2195,639,1452,889,1488,1192,1411,1198,1719,758,1636,877,2331,"/>
+		<area shape="bound" coords="1239,2278,1322,1500,1584,1601,1809,1506,1922,1850,1435,1737,1560,2302,"/>
+		<area shape="bound" coords="2362,2325,2142,2207,2041,1904,2178,1607,2421,1500,2587,1589,2730,1945,2546,2248,"/>
+		<area shape="bound" coords="2356,2123,2279,1880,2403,1737,2469,1969,"/>
+		<area shape="trigger" script="nothing" coords="240,1322,244,1124,257,893,237,744,103,686,3,684,-55,1505,"/>
+		<area shape="trigger" script="nothing" coords="203,616,226,601,255,601,274,620,236,630,"/>
+		<area shape="trigger" script="nothing" coords="55,573,74,569,106,572,122,583,85,589,"/>
+		<area shape="trigger" script="nothing" coords="243,539,261,528,363,545,382,565,488,523,555,454,619,393,606,286,538,198,403,158,266,155,161,197,73,283,64,397,87,483,168,541,"/>
+		<area shape="trigger" script="nothing" coords="789,317,809,310,841,311,855,322,824,328,"/>
+		<area shape="trigger" script="nothing" coords="664,670,560,666,557,1111,850,1098,859,679,732,673,731,701,829,701,826,1068,585,1076,577,704,662,701,"/>
+		<area shape="trigger" script="nothing" coords="642,701,750,702,749,738,644,740,"/>
+		<area shape="trigger" script="nothing" coords="229,1299,1023,1296,1203,1603,232,1322,"/>
+		<area shape="trigger" script="nothing" coords="1024,1323,1181,-207,1008,2,1012,1322,"/>
+		<area shape="trigger" script="nothing" coords="13,428,0,718,77,37,16,0,10,109,70,287,69,406,"/>
+		<area shape="trigger" script="nothing" coords="2,6,1019,10,1023,1,0,2,"/>
+		<area shape="case" script="nothing" coords="85,1747,158,1658,113,1513,76,1462,-52,1266,-221,1241,-153,1371,"/>
+		<area shape="case" script="nothing" coords="203,616,226,601,255,601,274,620,236,630,"/>
+		<area shape="case" script="nothing" coords="55,573,74,569,106,572,122,583,85,589,"/>
+		<area shape="case" script="nothing" coords="243,539,261,528,363,545,382,565,488,523,555,454,619,393,606,286,538,198,460,-43,266,155,161,197,73,283,64,397,87,483,168,541,"/>
+		<area shape="case" script="nothing" coords="789,317,809,310,841,311,855,322,824,328,"/>
+		<area shape="case" script="nothing" coords="371,1055,508,1171,729,1318,988,1127,1169,851,1163,604,1047,592,1024,873,947,1125,740,1260,629,1209,450,781,"/>
+		<area shape="case" script="nothing" coords="5,873,251,1023,175,1169,59,1084,"/>
+		<area shape="case" script="nothing" coords="401,1569,920,1755,483,1415,266,1488,"/>
+		<area shape="case" script="nothing" coords="1208,-60,1189,-338,1484,-371,1477,-107,"/>
+		<area shape="case" script="nothing" coords="-159,313,-373,293,-293,-98,-219,-57,-174,69,-125,189,-149,228,"/>
+		<area shape="case" script="nothing" coords="2,-143,956,-237,1000,-154,-23,-199,"/>
+	</boundary>
+</image>

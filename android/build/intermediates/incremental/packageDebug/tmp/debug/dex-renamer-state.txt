@@ -1,4 +1,4 @@
-#Wed Sep 04 04:40:12 CDT 2019
-base.0=/home/zaida/filez/projects/android/libgdxgame/android/build/intermediates/dex/debug/mergeDexDebug/out
+#Sun Feb 02 03:23:20 CST 2020
+base.0=/home/zaida/filez/projects/libgdxgame/android/build/intermediates/transforms/dexMerger/debug/0
 path.0=classes.dex
 renamed.0=classes.dex

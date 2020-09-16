@@ -1,32 +1,45 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Polygon;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.XmlReader;
 import com.mygdx.game.Eventyr.stage1;
 import com.mygdx.game.World.Element;
 import com.mygdx.game.World.Stage;
 
-import java.util.Iterator;
+import java.io.File;
 import java.util.StringTokenizer;
 
 public class Resources {
-    private Sprite  spritesImage;
-    private Sound   dropSound;
-    private Music   rainMusic;
+    static String TAG = "Resources";
 
-
-    public boolean ready = false;
+    private Sprite     spritesImage;
+    private Sound      dropSound;
+    private Music      rainMusic;
+    private BitmapFont fontImage;
 
     private Sprite loadTex(String path){
-        System.out.println("loadTex: " + path);
-        return new Sprite(new Texture(Gdx.files.internal(path)));
+//        System.out.println("loadTex: " + path);
+        FileHandle f = Gdx.files.internal(path);
+        if(f == null) Gdx.app.log(TAG+":loadTex", "file is null: " + path);
+        return new Sprite(new Texture(f));
+    }
+
+    public Element loadani(String path){
+        return new Element(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2, path);
+    }
+
+    public Stage loadStage(String s){
+        return null;
     }
 
     public FileHandle getshader(int which){
@@ -46,13 +59,16 @@ public class Resources {
     }
 
     public Resources() {
+        //TODO: create assetmanager and stuff
+
         // load the images for the droplet and the bucket, 64x64 pixels each
-        spritesImage     = loadTex("anim.png");
+        spritesImage = loadTex("anim.png");
 
         // load the drop sound effect and the rain background "music"
-        dropSound = Gdx.audio.newSound(Gdx.files.internal("drop.wav"));
-        rainMusic = Gdx.audio.newMusic(Gdx.files.internal("level1.ogg"));
-        ready = true;
+        dropSound    = Gdx.audio.newSound(Gdx.files.internal("drop.wav"));
+        rainMusic    = Gdx.audio.newMusic(Gdx.files.internal("level1.ogg"));
+
+        fontImage = new BitmapFont( );
     }
 
     public void dispose(){
@@ -62,11 +78,40 @@ public class Resources {
         rainMusic.dispose();
     }
 
-    // opens xml for reading
-    private FileHandle xmlfile;
-    private XmlReader xml;
-    private XmlReader.Element xmle;
-    public XmlReader.Element openXML(String path){
+    public String initStageFromXML(Stage stage){
+        if(stage.getStageFilePath() == "unset") return "failed";
+
+        this.openXML(stage.getStageFilePath());
+
+        stage.setPlayer    (null);
+        stage.setProps     (readProps());
+        stage.setActors    (readActors());
+        readBoundaries(stage);
+//        stage.setBoundaries(readBoundaries());
+//        stage.setTriggers  (readTriggers());
+//        stage.setCases     (readCases());
+        Gdx.app.log(TAG, "trying to read spawn point");
+        XmlReader.Element pos = xmle.getChildByName("spawnpoint");
+        if(pos != null){
+            stage.spawn = new Vector2(
+                        pos.getFloat("x"),
+                        pos.getFloat("y") );
+
+        }
+        if(stage.spawn == null) Gdx.app.log(TAG, "spawnpoint read fail");
+        stage.setPlayer(loadPlayer(stage.spawn.x, stage.spawn.y));
+
+        stage.setReady();
+
+        return "success";
+    }
+
+    // opens xml for reading, if path is null it will crash (desired result)
+    private FileHandle        xmlfile;
+    private XmlReader         xml;
+    public  XmlReader.Element xmle;
+
+    public  XmlReader.Element openXML(String path){
         System.out.println("Reading xml from " + path);
         xmlfile = Gdx.files.internal(path);
         xml     = new XmlReader();
@@ -74,46 +119,76 @@ public class Resources {
         return xmle;
     }
 
-    public Element[] readProps() {
-        Array<XmlReader.Element> layer = xmle.getChildByName("stack").getChildrenByName("layer");
-        Iterator i = layer.iterator();
-        Element[] xmlelements = new Element[layer.size];
-        int c = 0;
 
-        while (i.hasNext()) {
-            XmlReader.Element level_element = (XmlReader.Element) i.next();
+    public Array<Element> readActors() {
+        if(xmle == null || xmle.hasChild("cast") == false) return null;
+        Array<Element> actors = new Array<Element>();
+        Array<XmlReader.Element> cast = xmle.getChildByName("cast").getChildrenByName("actor");
+/*                    piece.element("cast");
+                    for(Element actor : world.getStage().getActors()){
+                        if(actor != null)
+                            piece.element("actor")
+                                    .attribute("name",      actor.name)
+                                    .attribute("x",         actor.x)
+                                    .attribute("y",         actor.y)
+                                    .attribute("script",    actor.script)
+
+* */
+        for(XmlReader.Element actordata : cast){
+            String name   = actordata.getAttribute("name");
+            String script = actordata.getAttribute("script");
+            float  x      = Float.parseFloat(actordata.getAttribute("x"));
+            float  y      = Float.parseFloat(actordata.getAttribute("y"));
+            Gdx.app.log(TAG, "Added actor " + name +" at "+ x +","+ y);
+            actors.add(new Element(x, y, name, script));
+        }
+        Gdx.app.log(TAG, "Read " + actors.size);
+        return actors;
+    }
+
+    public Array<Element> readProps() {
+        if(xmle == null || xmle.hasChild("stack") == false) return null;
+        Array<XmlReader.Element> layer = xmle.getChildByName("stack").getChildrenByName("layer");
+
+        Array<Element> xmlelements     = new Array<Element>();
+        for(XmlReader.Element level_element : layer){
             // TODO_ Figure if name is needed for something
             String name       = level_element.getAttribute("name");
+            String opacity    = level_element.getAttribute("opacity"); //unused
             String src        = level_element.getAttribute("src");
-            String visibility = level_element.getAttribute("visibility");
+            String visibility = level_element.getAttribute("visibility"); //unused
+            float x           = level_element.getFloat("x");
+            float y           = level_element.getFloat("y");
 
-            int x = level_element.getInt("x");
-            int y = level_element.getInt("y");
-
-            System.out.println("prop name: " + name);
             Sprite s = loadTex(src);
             s.setPosition(x, y);
-
             //TODO: make something to visibilty allowing different ways to display
-            if(false && visibility.compareTo("fixed") == 0){
-                xmlelements[c] = xmlelements[0];
-                xmlelements[0] = new Element(x, y, s.getWidth(), s.getHeight(), 0, s);
-            } else {
-                xmlelements[c] = new Element(x, y, s.getWidth(), s.getHeight(), 0, s);
-            }
-            c++;
+            Element element = new Element(x, y, s.getWidth(), s.getHeight(), 0, s, name);
+            xmlelements.add(element);
         }
         return xmlelements;
     } // Element[] readProps()
 
-    public Polygon[] readBoundaries(){
+    public Polygon[] readCases(){
+        if(xmle == null || xmle.hasChild("boundary") == false){
+            float v[] = new float[6];
+            v[0] = 0;
+            v[1] = 0;
+            v[2] = 100;
+            v[3] = 100;
+            v[4] = 50;
+            v[5] = 100;
+            Polygon[] p = new Polygon[1];
+            p[0] = new Polygon(v);
+            return p;
+        }
+
         Array<XmlReader.Element> layer = xmle.getChildByName("boundary").getChildrenByName("area");
-        Iterator i = layer.iterator();
+
         Polygon[] poly = new Polygon[layer.size];;
         int c = 0;
 
-        while(i.hasNext()){
-            XmlReader.Element level_element = (XmlReader.Element)i.next();
+        for(XmlReader.Element level_element : layer){
             String area= level_element.getAttribute("coords");
             //System.out.println(area);
             StringTokenizer st = new StringTokenizer(area, ",");
@@ -129,6 +204,141 @@ public class Resources {
         }
 
         return poly;
+    }
+
+    public Polygon[] readTriggers(){
+        if(xmle == null || xmle.hasChild("boundary") == false){
+            float v[] = new float[6];
+            v[0] = 0;
+            v[1] = 0;
+            v[2] = 100;
+            v[3] = 100;
+            v[4] = 50;
+            v[5] = 100;
+            Polygon[] p = new Polygon[1];
+            p[0] = new Polygon(v);
+            return p;
+        }
+
+        Array<XmlReader.Element> layer = xmle.getChildByName("boundary").getChildrenByName("area");
+
+        Polygon[] poly = new Polygon[layer.size];;
+        int c = 0;
+
+        for(XmlReader.Element level_element : layer){
+            String area= level_element.getAttribute("coords");
+            //System.out.println(area);
+            StringTokenizer st = new StringTokenizer(area, ",");
+            int p = 0;
+            float [] points = new float[st.countTokens()];
+            while (st.hasMoreTokens()) {
+                points[p] = Float.parseFloat(st.nextToken());
+                //System.out.println("p[" + p + "]: " + points[p]);
+                p++;
+            }
+            poly[c] = new Polygon(points);
+            c++;
+        }
+
+        return poly;
+    }
+
+    public Polygon[] readBoundaries(Stage stage){
+        if(xmle == null || xmle.hasChild("boundary") == false){
+            float v[] = new float[6];
+            v[0] = 0;
+            v[1] = 0;
+            v[2] = 100;
+            v[3] = 100;
+            v[4] = 50;
+            v[5] = 100;
+            Polygon[] p = new Polygon[1];
+            p[0] = new Polygon(v);
+            return p;
+        }
+
+        Array<XmlReader.Element> layer = xmle.getChildByName("boundary").getChildrenByName("area");
+
+//        Polygon[] poly = new Polygon[layer.size];;
+//        int c = 0;
+//
+//        for(XmlReader.Element level_element : layer){
+//            String area= level_element.getAttribute("coords");
+//            //System.out.println(area);
+//            StringTokenizer st = new StringTokenizer(area, ",");
+//            int p = 0;
+//            float [] points = new float[st.countTokens()];
+//            while (st.hasMoreTokens()) {
+//                points[p] = Float.parseFloat(st.nextToken());
+//                //System.out.println("p[" + p + "]: " + points[p]);
+//                p++;
+//            }
+//            poly[c] = new Polygon(points);
+//            c++;
+//        }
+
+        Array<Polygon> bounds = new Array<Polygon>();
+        Array<Polygon> trigs  = new Array<Polygon>();
+        Array<Polygon> cases  = new Array<Polygon>();
+
+        Array<String>  trigscripts = new Array<String>();
+        Array<String>  casesscripts = new Array<String>();
+
+        for(XmlReader.Element level_element : layer){
+            String area   = level_element.getAttribute("coords");
+            String shape  = level_element.getAttribute("shape");
+            String script = level_element.hasAttribute("script") ? level_element.getAttribute("script") : "nothing";
+
+            StringTokenizer st = new StringTokenizer(area, ",");
+            int p = 0;
+            float [] points = new float[st.countTokens()];
+            while (st.hasMoreTokens()) {
+                points[p] = Float.parseFloat(st.nextToken());
+                //System.out.println("p[" + p + "]: " + points[p]);
+                p++;
+            }
+            if("bound"  .equals(shape))  bounds.add(new Polygon(points));
+            if("trigger".equals(shape)) {trigs .add(new Polygon(points)); trigscripts.add(script);}
+            if("case"   .equals(shape)) {cases .add(new Polygon(points)); casesscripts.add(script); }
+        }
+
+        Gdx.app.log("readBounds", "boundaries got: " + bounds.size);
+        if(bounds.isEmpty() == false){
+            Polygon[] b = new Polygon[bounds.size];
+            for(int i = 0; i!= bounds.size; i++){
+                b[i] = bounds.get(i);
+                Gdx.app.log("", "c: " + b[i].getVertices().length);
+            }
+            stage.setBoundaries(b);
+        }
+
+        Gdx.app.log("readBounds", "triggers got: " + trigs.size);
+        if(trigs.isEmpty() == false){
+            Polygon[] t = new Polygon[trigs.size];
+            String [] s = new String[trigscripts.size];
+
+            for(int i = 0; i!= trigs.size; i++){
+                t[i] = trigs.get(i);
+                s[i] = trigscripts.get(i);
+                Gdx.app.log("", "c: " + t[i].getVertices().length);
+            }
+            stage.setTriggers(t, s);
+        }
+
+        Gdx.app.log("readCases", "cases got: " + cases.size);
+        if(cases.isEmpty() == false){
+            Polygon[] c = new Polygon[cases.size];
+            String [] s = new String[cases.size];
+
+            for(int i = 0; i!= cases.size; i++){
+                c[i] = cases.get(i);
+                s[i] = casesscripts.get(i);
+                Gdx.app.log("", "c: " + c[i].getVertices().length);
+            }
+            stage.setCases(c, s);
+        }
+
+        return null;
     }
 
     public Sprite loadimg(int n){
@@ -192,25 +402,43 @@ src="data/002.png"		x="505"	y="661"
         return s;
     }
 
-    public Sprite  getSpritesImage() {
+    public BitmapFont getFont(){
+        return fontImage;
+    }
+
+    public Sprite     getSpritesImage() {
         return spritesImage;
     }
 
-    public Sound getDropSound() {
+    public Sound      getDropSound() {
         return dropSound;
     }
 
-    public Music getRainMusic() {
+    public Music      getRainMusic() {
         return rainMusic;
     }
 
-    public Element[] getElements() {
+    public Element[]  getElements() {
         return null;
     }
 
     /* this thing should do magic to return the correct stage */
+    Stage currentStage;
     public Stage getStage(){
-        Stage s = new stage1(this);
-        return s;
+        if(currentStage == null) currentStage = new stage1(this);
+        Gdx.app.log(TAG, "res currentStage: " + currentStage.getStageFilePath());
+        return currentStage;
+    }
+
+    public void setStage(Stage current){
+        this.currentStage = current;
+    }
+
+    Element player;
+    public Element loadPlayer(float x, float y){
+        if(player == null) player = new Element(x,y,64f,64f,8, this.getSpritesImage(), "player");
+        player.x = x;
+        player.y = y;
+        return  player;
     }
 }

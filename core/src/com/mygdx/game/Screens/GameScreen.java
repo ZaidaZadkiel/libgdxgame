@@ -49,6 +49,7 @@ public class GameScreen extends DefaultScreen {
     //libGdx
     private SpriteBatch        batch;
     private OrthographicCamera camera;
+    private OrthographicCamera overlayCamera;
     private ShapeRenderer      sr;
 
     //game system
@@ -56,37 +57,42 @@ public class GameScreen extends DefaultScreen {
     private Element   player;
     private Resources r;
 
+    boolean renderActors = false;
 
     public GameScreen(MyGdxGame game) {
         super(game);
 
-        r = new Resources();
+        r = game.resources;
 
-        world = new World();
-        world.start(r);
-
+        world = new World(r);
         world.setStage( r.getStage() );
-
-
         player = world.getStage().getPlayer();
+
         if(player == null) System.out.println("player is left null");
 
         //android 1.7
         // pc  0.6
         float dpi = 160 * Gdx.graphics.getDensity();
         System.out.println ("DPI: " + Gdx.graphics.getDensity());
-        // setup the camera
+        // setup the cameras
         camera = new OrthographicCamera();
         camera.setToOrtho(
         false,
               VIRTUAL_WIDTH,
                 VIRTUAL_HEIGHT
             );
+        overlayCamera = new OrthographicCamera();
+        overlayCamera.setToOrtho(
+            false,
+            VIRTUAL_WIDTH,
+            VIRTUAL_HEIGHT
+        );
+
         batch = new SpriteBatch();
+        sr    = new ShapeRenderer();
 
-
-        sr = new ShapeRenderer();
-
+        renderActors = (    world.getStage().getActors() != null
+                        &&  world.getStage().getActors().size>0 );
     }
 
     @Override
@@ -125,6 +131,7 @@ public class GameScreen extends DefaultScreen {
         if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) newX = player.speed;
         if(Gdx.input.isKeyPressed(Input.Keys.UP))    newY = player.speed;
         if(Gdx.input.isKeyPressed(Input.Keys.DOWN))  newY = -player.speed;
+        if(Gdx.input.isKeyPressed(Input.Keys.SPACE)) movement_flags |= 1;
 
         if(Gdx.input.isTouched()) {
             Vector3 touchPos = new Vector3();
@@ -170,14 +177,21 @@ public class GameScreen extends DefaultScreen {
         camera.update();
         world.update(delta);
 
+        Gdx.gl.glClear( Gdx.gl20.GL_COLOR_BUFFER_BIT | Gdx.gl20.GL_DEPTH_BUFFER_BIT );
+
         // tell the SpriteBatch to render in the
         // coordinate system specified by the camera.
         batch.setProjectionMatrix(camera.combined);
-
         world.present(batch);
+
+        batch.setProjectionMatrix(overlayCamera.combined);
+        batch.begin();
+        r.getFont().draw(batch,"frame: " + player.anim.frame,10,100);
+        batch.end();
 
         sr.setProjectionMatrix(camera.combined);
         sr.begin(ShapeRenderer.ShapeType.Line);
+
 /*
         for(Element el : world.getStage().getProps()) {
             sr.rectLine(
@@ -188,11 +202,14 @@ public class GameScreen extends DefaultScreen {
                     1);
         }*/
 
-        for(Element el : ((stage1)world.getStage()).getActors() ) {
-            sr.rect(el.x, el.y, el.width, el.height);
+        if(renderActors==true){
+            for(Element el : world.getStage().getActors() ) {
+                sr.rect(el.x, el.y, el.width, el.height);
+            }
         }
+
         Element el;
-        el = ((stage1)world.getStage()).getPlayer();
+        el = world.getStage().getPlayer();
 
         //z is the radius length
         //sr.circle(el.getBounds().x, el.getBounds().y, el.getBounds().z);

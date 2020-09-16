@@ -1,0 +1,20 @@
+<image h="100" w="1000">
+	<stack>
+		<layer name="noname" opacity="1.0" src="data/scene2/tree1.png" visibility="false" x="1344.0" y="87.0"/>
+		<layer name="noname" opacity="1.0" src="data/scene2/bg2.png" visibility="false" x="1200.0" y="1524.0"/>
+		<layer name="noname" opacity="1.0" src="data/scene2/bg1.png" visibility="false" x="-82.0" y="1493.0"/>
+		<layer name="tree" opacity="1.0" src="data/scene1/000.png" visibility="false" x="736.0" y="308.0"/>
+		<layer name="tree1" opacity="1.0" src="data/scene1/001.png" visibility="false" x="164.0" y="613.0"/>
+		<layer name="tree2" opacity="1.0" src="data/scene1/002.png" visibility="false" x="0.0" y="568.0"/>
+		<layer name="house" opacity="1.0" src="data/scene1/003.png" visibility="false" x="505.0" y="661.0"/>
+		<layer name="pond1" opacity="1.0" src="data/scene1/004.png" visibility="false" x="355.0" y="268.0"/>
+		<layer name="pond2" opacity="1.0" src="data/scene1/005.png" visibility="false" x="17.0" y="282.0"/>
+		<layer name="scene1-obj.png" opacity="1.0" src="data/scene1/006.png" visibility="false" x="0.0" y="551.0"/>
+		<layer name="scenebg" opacity="1.0" src="data/scene1/007.png" visibility="false" x="0.0" y="0.0"/>
+	</stack>
+	<boundary>
+		<area shape="bound" coords="348,515,244,457,357,383,415,448,"/>
+		<area shape="trigger" script="nothing" coords="248,381,345,447,429,394,335,294,"/>
+		<area shape="case" script="nothing" coords="342,356,246,276,363,224,410,306,"/>
+	</boundary>
+</image>

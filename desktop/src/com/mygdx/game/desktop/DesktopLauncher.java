@@ -9,6 +9,7 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.height = 400;
 		config.width = 800;
+		config.forceExit=false;
 		new LwjglApplication(new MyGdxGame(), config);
 	}
 }

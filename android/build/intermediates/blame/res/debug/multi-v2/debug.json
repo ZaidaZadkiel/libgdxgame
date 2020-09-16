@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/home/zaida/filez/projects/android/libgdxgame/android/build/intermediates/res/merged/debug/values_values.arsc.flat",
+            "outputFile": "/home/zaida/filez/projects/libgdxgame/android/build/intermediates/res/merged/debug/values_values.arsc.flat",
             "map": [
                 {
-                    "source": "/home/zaida/filez/projects/android/libgdxgame/android/res/values/color.xml",
+                    "source": "/home/zaida/filez/projects/libgdxgame/android/res/values/color.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -14,7 +14,7 @@
                     }
                 },
                 {
-                    "source": "/home/zaida/filez/projects/android/libgdxgame/android/res/values/strings.xml",
+                    "source": "/home/zaida/filez/projects/libgdxgame/android/res/values/strings.xml",
                     "from": {
                         "startLines": "3",
                         "startColumns": "4",
@@ -31,7 +31,7 @@
                     }
                 },
                 {
-                    "source": "/home/zaida/filez/projects/android/libgdxgame/android/res/values/styles.xml",
+                    "source": "/home/zaida/filez/projects/libgdxgame/android/res/values/styles.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
